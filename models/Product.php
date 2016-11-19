@@ -154,4 +154,30 @@ class Product extends ActiveRecord
             }
         }
     }
+
+    /**
+     * [Получаем специальные предложения на главной]
+     * @author Peskov Sergey
+     * @date 19/11/2016
+     * return [array]
+     */
+    public function getSpecialOffers(){
+        $query = Product::find()->where(['active'=>1,'mainflag'=>1])->all();
+        return $query;
+    }
+
+    /**
+     * [Получаем ссылку на первую картинку из массива в Товаре]
+     * @author Peskov Sergey
+     * @date 19/11/2016
+     * @return [url img]
+     */
+    public function getFirstImg(){
+        if($this->prodpics){
+            $jsonDecode = json_decode($this->prodpics);
+            return $jsonDecode[0];
+        }else{
+            return 'empty.jpg';
+        }
+    }
 }

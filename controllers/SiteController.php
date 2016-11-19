@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Product;
 use app\models\UploadForm;
 use Yii;
 use yii\filters\AccessControl;
@@ -50,7 +51,11 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new Product();
+        $special = $model->getSpecialOffers();
+        return $this->render('index', [
+            'special' => $special
+        ]);
     }
 
     public function actionLogin()
