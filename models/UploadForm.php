@@ -24,7 +24,7 @@ class UploadForm extends Model
         ];
     }
 
-    /*public function upload()
+    public function upload()
     {
         if ($this->validate()) {
             foreach ($this->prodpics as $key => $file) {
@@ -32,25 +32,7 @@ class UploadForm extends Model
                 $file->saveAs('uploads/original/' . $nameFile);
 
                 $im = new ResizeImg(\Yii::getAlias("@app/web").'/uploads/original/'.$nameFile);
-
-                $centreX = round($im->getWidth() / 2);
-                $centreY = round($im->getHeight() / 2);
-
-                if($centreX>$centreY){
-                    $x1 = $centreX - $centreY;
-                    $y1 = $centreY - $centreY;
-
-                    $x2 = $centreX + $centreY;
-                    $y2 = $centreY + $centreY;
-                }else{
-                    $x1 = $centreX - $centreX;
-                    $y1 = $centreY - $centreX;
-
-                    $x2 = $centreX + $centreX;
-                    $y2 = $centreY + $centreX;
-                }
-
-                $im->crop($x1, $y1, $x2, $y2)->resample(250,250);
+                $croped = $im->compression(357,515);
                 $im->save(\Yii::getAlias("@app/web").'/uploads/thumb/'.$nameFile);
 
                 $filesJson[] = $nameFile;
@@ -59,23 +41,6 @@ class UploadForm extends Model
         } else {
             return false;
         }
-    }*/
-
-    public function upload()
-    {
-
-                //$nameFile = 'unosha.jpg';
-                //$nameFile = 'butterf.png';
-                $nameFile = 'piggy.png';
-                //$nameFile = 'family_of_giraffes.jpg';
-                //$file->saveAs('uploads/original/' . $nameFile);
-
-                $im = new ResizeImg(\Yii::getAlias("@app/web").'/uploads/original/'.$nameFile);
-                $croped = $im->compression(357,515);
-                $croped->save(\Yii::getAlias("@app/web").'/uploads/thumb/new_'.$nameFile);
-
-                $filesJson[] = $nameFile;
-
     }
 
     public function rus2translit($string) {

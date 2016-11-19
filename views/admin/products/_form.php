@@ -45,6 +45,8 @@ use yii\bootstrap\ActiveForm;
 
             <?= $form->field($model, 'active')->textInput() ?>
 
+            <?= $form->field($model, 'mainflag')->checkbox() ?>
+
             <?php yii\widgets\Pjax::begin(['id' => 'showPics','enablePushState'=>false]) ?>
             <a id="loaderbtn" style="display:block" href="javascript:void(0);" onclick="$('.prodClickBtn').click();">Закачать фотку</a>
             <div class="loading" style="display: none">Загрузка</div>

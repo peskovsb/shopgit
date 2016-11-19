@@ -40,7 +40,7 @@ class Product extends ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'price', 'active'], 'integer'],
+            [['category_id', 'price', 'active','mainflag'], 'integer'],
             [['name', 'price'], 'required'],
             [['content'], 'string'],
             [['tagsArray','prodpics'], 'safe'],
@@ -62,6 +62,7 @@ class Product extends ActiveRecord
             'price' => 'Цена',
             'active' => 'Активность',
             'tagsArray' => 'Тэги',
+            'mainflag' => 'Показывать на главной',
         ];
     }
 
