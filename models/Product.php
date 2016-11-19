@@ -163,7 +163,7 @@ class Product extends ActiveRecord
      * return [array]
      */
     public function getSpecialOffers(){
-        $query = Product::find()->where(['active'=>1,'mainflag'=>1])->all();
+        $query = Product::find()->where(['active'=>1,'mainflag'=>1])->limit(4)->orderBy('RAND()')->all();
         return $query;
     }
 
