@@ -54,7 +54,6 @@ if(Yii::$app->session->isActive && Yii::$app->session->get('cartCondition')){
 }
 echo '</div>';
 
-$var = 123;
 //начало многосточной строки, можно использовать любые кавычки
 $script = <<< JS
    $(".megamenu").megamenu();
