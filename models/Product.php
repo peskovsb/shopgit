@@ -175,9 +175,11 @@ class Product extends ActiveRecord
     public function getFirstImg(){
         if($this->prodpics){
             $jsonDecode = json_decode($this->prodpics);
-            return $jsonDecode[0];
-        }else{
-            return 'empty.jpg';
+            if(count($jsonDecode)>0){
+                return $jsonDecode[0];
+            }else{
+                return 'empty.jpg';
+            }
         }
     }
 }
