@@ -129,7 +129,7 @@ class CatalogController extends Controller
      */
     protected function findProductModel($id)
     {
-        if (($model = Product::findOne($id)) !== null) {
+        if (($model = Product::findOne(['id'=>$id,'active'=>1])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

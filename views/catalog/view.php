@@ -27,7 +27,15 @@ $this->params['category'] = $model->category;
 <div class="catalog-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+<?php
+if(count($model->getAllImgs())>0){
+    foreach ($model->getAllImgs() as $item){ ?>
+    <img src="<?= \Yii::getAlias('@web').'/uploads/thumb/'. $item ?>"<br />
+<?php
+    }
+}else{ ?>
+    Картинок нет
+    <?php }?>
     <div class="row">
         <div class="col-md-6">
             <?= DetailView::widget([

@@ -183,4 +183,21 @@ class Product extends ActiveRecord
             }
         }
     }
+
+    /**
+     * [Выводим все ссылки на картинки из массива о Товаре]
+     * @author Peskov Sergey
+     * @date 19/11/2016
+     * @return [array]
+     */
+    public function getAllImgs(){
+        if($this->prodpics){
+            $jsonDecode = json_decode($this->prodpics);
+            if(count($jsonDecode)>0){
+                return $jsonDecode;
+            }else{
+                return [];
+            }
+        }
+    }
 }
