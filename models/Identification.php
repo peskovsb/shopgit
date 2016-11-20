@@ -54,7 +54,7 @@ class Identification extends Model
             }
         }else{
             $randID = 'guest_' . time() . '_' . rand(100,10000);
-            setcookie("user", $randID, time()+(3600*24*183));
+            setcookie("user", $randID, time()+(3600*24*183),'/');
             if(!Yii::$app->session->get('userId')){
                 Yii::$app->session->set('userId', $randID);
             }

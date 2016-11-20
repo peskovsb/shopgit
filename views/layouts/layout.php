@@ -25,36 +25,8 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-
-<script type="text/javascript">
-
-    goods = [<?php
-            if(Yii::$app->session->isActive && Yii::$app->session->get('cartCondition')){
-                foreach(Yii::$app->session->get('cartCondition') as $value){
-                    echo $value['id'].', ';
-                }
-            }
-        ?>];
-</script>
 <?php
-//echo count(Yii::$app->session->get('cartCondition'));
-$cartSum = 0;
-$sumCheck = 0;
-if(Yii::$app->session->isActive && Yii::$app->session->get('cartCondition')){
-    $cartSum = count(Yii::$app->session->get('cartCondition'));
-    foreach(Yii::$app->session->get('cartCondition') as $value){
-        $sumCheck += $value['count']*50;
-    }
-}
-echo '<div style="display:none;">Корзина <span id="countInfo">'.$cartSum.'</span> | <span id="priseInfo">'.$sumCheck.'</span> руб</div>';
-
-echo '<div id="cartTop">';
-if(Yii::$app->session->isActive && Yii::$app->session->get('cartCondition')){
-    echo CartWidget::widget(['items'=>Yii::$app->session->get('cartCondition')]);
-}
-echo '</div>';
-
-$var = 123;
+echo Html::a('go',['cart/buy']);
 //начало многосточной строки, можно использовать любые кавычки
 $script = <<< JS
    $(".megamenu").megamenu();
@@ -63,7 +35,6 @@ JS;
 $this->registerJs($script, yii\web\View::POS_READY);
 
 ?>
-
 <?php $this->beginBody() ?>
 <div class="top_bg">
     <div class="container">
@@ -120,6 +91,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
                 <a href="register.html">REGISTER</a>
             </div>
             <div class="cart box_1">
+                <?= \app\components\Cart\Cart::widget() ?>
                 <a href="checkout.html">
                     <h3> <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)<img src="<?= \Yii::getAlias('@web') ?>/images/bag.png" alt=""></h3>
                 </a>

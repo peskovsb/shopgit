@@ -8,12 +8,12 @@
  */
 
 function ajaxAddToCart (url,id) {
-    basePrise = $('#priseInfo').text();
-    count = $('.good_id-'+id).children('.countGood').val();
-    prise = $('.good_id-'+id).children('.priseGood').text();
+    basePrise = $('#bcb_base_sum').val();
+    count = $('.good_id-'+id).find('.countGood').val();
+    prise = $('.good_id-'+id).find('.bsb_prise_prod').val();
     readyPrise = parseInt(basePrise) + (parseInt(prise)*count);
     //console.log(readyPrise);
-    $('#priseInfo').text(readyPrise);
+    $('#bcb_base_sum').val(readyPrise);
     //console.log('count: ',count);
 
     var exists = 0;
@@ -27,8 +27,10 @@ function ajaxAddToCart (url,id) {
         goods.push(parseInt(id))
     }
     baseCount = goods.length;
-    $('#countInfo').text(baseCount);
-    console.log(goods);
+    $('#bcb_base_quantity').val(baseCount);
+    $('#prise-out').text(readyPrise);
+    $('#quantity-out').text(baseCount);
+    //console.log(goods);
 
     if(count==0 || count ==''){
         alert('Поле с количеством должно быть заполнено и не должно быть равно 0');
