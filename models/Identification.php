@@ -4,6 +4,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\db\Query;
+use yii\helpers\Url;
 
 class Identification extends Model
 {
@@ -57,6 +58,19 @@ class Identification extends Model
             setcookie("user", $randID, time()+(3600*24*183),'/');
             if(!Yii::$app->session->get('userId')){
                 Yii::$app->session->set('userId', $randID);
+            }
+        }
+    }
+
+    static function getProductCart(){
+        if(Yii::$app->session->get('cartCondition')){
+            if(count(Yii::$app->session->get('cartCondition')>0)){
+                foreach(Yii::$app->session->get('cartCondition') as $value){
+                    $getIds[] = $value['id'];
+                }
+                return \app\models\Product::find()->where(['id'=>$getIds])->all();
+            }else{
+                return [];
             }
         }
     }
@@ -123,7 +137,7 @@ class Identification extends Model
         }
         foreach($getCond as $key=>$value){
             $getCond[$key]['id'] = $value['id'];
-            $getCond[$key]['count'] = $value['id'];
+            $getCond[$key]['count'] = $value['count'];
          }
         Yii::$app->session->set('cartCondition',$getCond);
         $dataCart = json_encode($getCond, JSON_UNESCAPED_UNICODE);
@@ -154,6 +168,91 @@ class Identification extends Model
             'user_id' => Yii::$app->session->get('userId'),
             'cart' => $dataCart,
         ], 'user_id=:id', [':id'=>Yii::$app->session->get('userId')])->execute();
+    }
+
+    /**
+     * [Кнопки для карточки товара]
+     * @author Peskov Sergey
+     */
+    static function addBuy($id,$label,$class=false){
+        $html = '<a class="'.$class.'"
+                    href="javascript:void(0)"
+                    onclick="ajaxAddToCart(\''.Url::toRoute(['cart/buy']).'\',\''.$id.'\');">'.$label.'</a>';
+        return $html;
+    }
+
+    static function addPlus($id,$label,$class=false){
+        $html = '<a class="'.$class.'"
+                    href="javascript:void(0);"
+                    onclick="countPlus(\''.$id.'\');">'.$label.'</a>';
+        return $html;
+    }
+
+    static function addMinus($id,$label,$class=false){
+        $html = '<a class="'.$class.'"
+                    href="javascript:void(0);"
+                    onclick="countMinus(\''.$id.'\');">'.$label.'</a>';
+        return $html;
+    }
+
+    static function addPrise($prise){
+        $html = '<input type="hidden"
+                    value="'.$prise.'"
+                    class="bsb_prise_prod">' .  number_format($prise, 0, '.', ' ');
+        return $html;
+    }
+
+    static function addQuantity(){
+        $html = '<input type="text" value="1" class="countGood">';
+        return $html;
+    }
+
+    /**
+     * [Кнопки для корзины]
+     * @author Peskov Sergey
+     */
+    static function addCartQuantity($id,$count){
+        $html = '<input data-id="'.$id.'" type="text"
+            onblur="cartCorrect(\''.Url::to(["cart/correct"]).'\',\''.$id.'\',\'cart\')"
+            onkeyup="cartCorrect(\''.Url::to(["cart/correct"]).'\',\''.$id.'\',\'cart\')"
+            class="countCart" value="'.$count.'">';
+        return $html;
+    }
+
+    static function addCartDelete($id,$label){
+        $html = '<a class="cartDelete" data-id="'.$id.'"
+            onclick="cartDelete(\''.Url::to(["cart/delete"]).'\',\''.$id.'\');"
+            href="javascript:void(0);">'.$label.'</a>';
+        return $html;
+    }
+
+    static function addCartPlus($id,$label){
+        $html = '<a onclick="cartPlus(\''.Url::to(["cart/correct"]).'\',\''.$id.'\')"
+            data-id="'.$id.'"
+            class="cartPlus"
+            href="javascript:void(0);">'.$label.'</a>';
+        return $html;
+    }
+
+    static function addCartMinus($id,$label){
+        $html = '<a onclick="cartMinus(\''.Url::to(["cart/correct"]).'\',\''.$id.'\')"
+            data-id="'.$id.'"
+            class="cartMinus"
+            href="javascript:void(0);">'.$label.'</a>';
+        return $html;
+    }
+
+    static function addCartPrice($id,$count){
+        $price = \app\models\Product::findOne(['id'=>$id])['price'];
+        $html = '<input type="hidden"
+            data-id="'.$id.'"
+            class="priseCart"
+            value="'.$price.'">
+            <input type="hidden"
+            data-id="'.$id.'"
+            class="priseModifyCart" value="'.($count*$price).'">
+            <div data-id="'.$id.'" class="showCartPrice">'.($count*$price).'</div>';
+        return $html;
     }
 }
 

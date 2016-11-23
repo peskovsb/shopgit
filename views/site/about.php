@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use app\components\Cart\CartBuying;
 
 $this->title = 'About';
 $this->params['breadcrumbs'][] = $this->title;
@@ -14,5 +15,5 @@ $this->params['breadcrumbs'][] = $this->title;
         This is the About page. You may modify the following file to customize its content:
     </p>
 
-    <code><?= __FILE__ ?></code>
+    <?= CartBuying::widget() ?>
 </div>

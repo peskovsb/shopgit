@@ -10,6 +10,8 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use yii\helpers\Url;
 use app\components\cart\CartWidget;
+use app\components\Cart\CartBuying;
+use app\components\Cart\Cart;
 
 AppAsset::register($this);
 
@@ -26,7 +28,7 @@ AppAsset::register($this);
 </head>
 <body>
 <?php
-echo Html::a('go',['cart/buy']);
+//echo Html::a('go',['cart/buy']);
 //начало многосточной строки, можно использовать любые кавычки
 $script = <<< JS
    $(".megamenu").megamenu();
@@ -91,7 +93,17 @@ $this->registerJs($script, yii\web\View::POS_READY);
                 <a href="register.html">REGISTER</a>
             </div>
             <div class="cart box_1">
-                <?= \app\components\Cart\Cart::widget() ?>
+                <div style="position:relative">
+
+                    <?= Cart::widget() ?>
+                    <div style="
+                    padding:10px;
+                    border:1px solid #ccc;
+                    background:#fff;
+                    position:absolute;
+                    z-index: 999;
+                    top:100%;"><?= CartBuying::widget() ?></div>
+                </div>
                 <a href="checkout.html">
                     <h3> <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)<img src="<?= \Yii::getAlias('@web') ?>/images/bag.png" alt=""></h3>
                 </a>

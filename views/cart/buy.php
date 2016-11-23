@@ -1,7 +1,4 @@
 <?php
-use app\components\cart\CartWidget;
+use app\components\Cart\CartBuying;
 
-if(Yii::$app->session->isActive){
-    echo 'Выводим данные со списком покупок';
-    //echo CartWidget::widget();
-}
+echo CartBuying::widget();

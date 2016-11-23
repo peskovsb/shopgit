@@ -95,13 +95,13 @@ class SiteController extends Controller
 
     public function actionAbout()
     {
-        //return $this->render('about');
-        $model = new UploadForm();
+        return $this->render('about');
+        /*$model = new UploadForm();
         $model->upload();
         echo '<img src="'.\Yii::getAlias("@web").'/uploads/thumb/new_unosha.jpg">';
         echo '<img src="'.\Yii::getAlias("@web").'/uploads/thumb/new_family_of_giraffes.jpg">';
         echo '<img src="'.\Yii::getAlias("@web").'/uploads/thumb/new_brown_bear2.jpg">';
         echo '<img src="'.\Yii::getAlias("@web").'/uploads/thumb/new_butterf.png">';
-        echo '<img src="'.\Yii::getAlias("@web").'/uploads/thumb/new_piggy.png">';
+        echo '<img src="'.\Yii::getAlias("@web").'/uploads/thumb/new_piggy.png">';*/
     }
 }
