@@ -24,7 +24,7 @@ class AppAsset extends AssetBundle
         'css/etalage.css'
     ];
     public $js = [
-        'js/main.js',
+        'js/cart.js',
         'js/megamenu.js',
         'js/menu_jquery.js',
         'js/simpleCart.min.js'

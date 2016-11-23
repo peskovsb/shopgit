@@ -8,12 +8,12 @@
  */
 
 function ajaxAddToCart (url,id) {
-    basePrise = $('#priseInfo').text();
-    count = $('.good_id-'+id).children('.countGood').val();
-    prise = $('.good_id-'+id).children('.priseGood').text();
+    basePrise = $('#bcb_base_sum').val();
+    count = $('.good_id-'+id).find('.countGood').val();
+    prise = $('.good_id-'+id).find('.bsb_prise_prod').val();
     readyPrise = parseInt(basePrise) + (parseInt(prise)*count);
     //console.log(readyPrise);
-    $('#priseInfo').text(readyPrise);
+    $('#bcb_base_sum').val(readyPrise);
     //console.log('count: ',count);
 
     var exists = 0;
@@ -27,8 +27,10 @@ function ajaxAddToCart (url,id) {
         goods.push(parseInt(id))
     }
     baseCount = goods.length;
-    $('#countInfo').text(baseCount);
-    console.log(goods);
+    $('#bcb_base_quantity').val(baseCount);
+    $('#prise-out').text(readyPrise);
+    $('#quantity-out').text(baseCount);
+    //console.log(goods);
 
     if(count==0 || count ==''){
         alert('Поле с количеством должно быть заполнено и не должно быть равно 0');
@@ -59,19 +61,19 @@ $('.countGood').bind("change keyup input click", function() {
  * @return изменение поля goodCount
  */
 function countMinus(id){
-    count = $('.good_id-'+id).children('.countGood').val();
+    count = $('.good_id-'+id).find('.countGood').val();
     if(count <= 1){
         return false;
     }else{
         count = parseInt(count) - 1;
     }
-    $('.good_id-'+id).children('.countGood').val(count)
+    $('.good_id-'+id).find('.countGood').val(count)
 }
 
 function countPlus(id){
-    count = $('.good_id-'+id).children('.countGood').val();
+    count = $('.good_id-'+id).find('.countGood').val();
     count = parseInt(count) + 1;
-    $('.good_id-'+id).children('.countGood').val(count)
+    $('.good_id-'+id).find('.countGood').val(count)
 }
 
 /**
@@ -134,33 +136,40 @@ function cartDelete(url,id){
  * так и на странице оформления заказа
  * @return изменение поля cartCount
  */
+
+// Нужно будет вернуть все как было. Так как это решение не будет работать на странице оформления заказа!!!!
+
 $(document).on('keyup','.countCart',function(){
     id = $(this).attr('data-id');
-    priseInfo = $('#priseInfo').text();
+    priseInfo = $('#bcb_base_sum').val();
     count = $(this).val();
     if(count <= 0){
         return false;
     }
-    prise = $(this).next().text();
-    priseModifyOrigin = $(this).next().next().text();
+    console.log(count);
+    prise = $('.priseCart[data-id='+id+']').val();
+    priseModifyOrigin = $('.priseModifyCart[data-id='+id+']').val();
     finalPrise = parseInt(prise)*count;
     devidePrise = finalPrise-parseInt(priseModifyOrigin);
-    $('#priseInfo').text(parseInt(priseInfo)+devidePrise);
-
+    $('#bcb_base_sum').val(parseInt(priseInfo)+devidePrise);
+    $('.priseModifyCart[data-id='+id+']').val(finalPrise);
     $('.countCart[data-id='+id+']').val(count);
-    $('.priseModifyCart[data-id='+id+']').text(finalPrise);
+    $('.showCartPrice[data-id='+id+']').text(finalPrise);
+    $('#prise-out').text(parseInt(priseInfo)+devidePrise);
 });
 
 $(document).on('click','.cartPlus',function(){
     id = $(this).attr('data-id');
     currentCount = $('.countCart[data-id='+id+']').val();
-    prise = $('.cart_id-'+id).children('.priseCart').text();
+    prise = $('.cart_id-'+id).find('.priseCart').val();
     currentCount = parseInt(currentCount)+1;
     finalPrise = parseInt(prise)*currentCount;
-    priseInfo = $('#priseInfo').text();
-    $('#priseInfo').text(parseInt(priseInfo)+parseInt(prise));
-    $('.priseModifyCart[data-id='+id+']').text(finalPrise);
+    priseInfo = $('#bcb_base_sum').val();
+    $('#bcb_base_sum').val(parseInt(priseInfo)+parseInt(prise));
+    $('.priseModifyCart[data-id='+id+']').val(finalPrise);
     $('.countCart[data-id='+id+']').val(currentCount);
+    $('.showCartPrice[data-id='+id+']').text(finalPrise);
+    $('#prise-out').text(parseInt(priseInfo)+parseInt(prise));
 });
 
 $(document).on('click','.cartMinus',function(){
@@ -171,20 +180,24 @@ $(document).on('click','.cartMinus',function(){
     }else{
         currentCount = parseInt(currentCount) - 1;
     }
-    priseInfo = $('#priseInfo').text();
-    prise = $('.cart_id-'+id).children('.priseCart').text();
+    priseInfo = $('#bcb_base_sum').val();
+    prise = $('.cart_id-'+id).find('.priseCart').val();
     finalPrise = parseInt(prise)*currentCount;
-    $('#priseInfo').text(parseInt(priseInfo)-parseInt(prise));
-    $('.priseModifyCart[data-id='+id+']').text(finalPrise);
+    $('#bcb_base_sum').val(parseInt(priseInfo)-parseInt(prise));
+    $('.priseModifyCart[data-id='+id+']').val(finalPrise);
     $('.countCart[data-id='+id+']').val(currentCount);
+    $('.showCartPrice[data-id='+id+']').text(finalPrise);
+    $('#prise-out').text(parseInt(priseInfo)-parseInt(prise));
 });
 
 $(document).on('click','.cartDelete',function(){
     id = $(this).attr('data-id');
-    countInfo = $('#countInfo').text();
-    priseInfo = $('#priseInfo').text();
-    modifyPrise = $(this).parent().children('.priseModifyCart').text();
-    $('#countInfo').text(parseInt(countInfo)-1);
-    $('#priseInfo').text(parseInt(priseInfo)-parseInt(modifyPrise));
-    $('.cartDelete[data-id="'+id+'"]').parent().remove();
+    countInfo = $('#bcb_base_quantity').val();
+    priseInfo = $('#bcb_base_sum').val();
+    modifyPrise = $('.priseModifyCart[data-id='+id+']').val();
+    $('#bcb_base_quantity').val(parseInt(countInfo)-1);
+    $('#bcb_base_sum').val(parseInt(priseInfo)-parseInt(modifyPrise));
+    $('.cart_id-'+id).remove();
+    $('#prise-out').text(parseInt(priseInfo)-parseInt(modifyPrise));
+    $('#quantity-out').text(parseInt(countInfo)-1);
 });
