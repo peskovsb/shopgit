@@ -242,8 +242,7 @@ class Identification extends Model
         return $html;
     }
 
-    static function addCartPrice($id,$count){
-        $price = \app\models\Product::findOne(['id'=>$id])['price'];
+    static function addCartPrice($id,$count,$price){
         $html = '<input type="hidden"
             data-id="'.$id.'"
             class="priseCart"
