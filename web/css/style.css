@@ -3595,4 +3595,7 @@ a.cpns {
   margin:0;
 }
 }
-
+.cartbuyingw{display:none;}
+.cartwrapperw:hover .cartbuyingw{
+    display:block;
+}

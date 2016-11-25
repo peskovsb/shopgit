@@ -28,11 +28,10 @@ AppAsset::register($this);
 </head>
 <body>
 <?php
-//начало многосточной строки, можно использовать любые кавычки
 $script = <<< JS
    $(".megamenu").megamenu();
 JS;
-//маркер конца строки, обязательно сразу, без пробелов и табуляции
+
 $this->registerJs($script, yii\web\View::POS_READY);
 
 ?>
@@ -92,21 +91,20 @@ $this->registerJs($script, yii\web\View::POS_READY);
                 <a href="register.html">REGISTER</a>
             </div>
             <div class="cart box_1">
-                <div style="position:relative">
 
-                    <?= Cart::widget() ?>
-                    <div style="
-                    padding:10px;
-                    border:1px solid #ccc;
-                    background:#fff;
-                    position:absolute;
-                    z-index: 999;
-                    top:100%;"><?= CartBuying::widget() ?></div>
+                <div href="checkout.html">
+                    <h3 class="cartwrapperw" style="position:relative">
+                            <?= Cart::widget() ?>
+                            <div class="cartbuyingw" style="
+                                padding:10px;
+                                border:1px solid #ccc;
+                                background:#fff;
+                                position:absolute;
+                                z-index: 999;
+                                top:100%;"><?= CartBuying::widget() ?></div>
+
+                    </h3>
                 </div>
-                <a href="checkout.html">
-                    <h3> <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)<img src="<?= \Yii::getAlias('@web') ?>/images/bag.png" alt=""></h3>
-                </a>
-                <p><a href="javascript:;" class="simpleCart_empty">(empty card)</a></p>
                 <div class="clearfix"> </div>
             </div>
             <div class="create_btn">

@@ -27,7 +27,7 @@ class AppAsset extends AssetBundle
         'js/cart.js',
         'js/megamenu.js',
         'js/menu_jquery.js',
-        'js/simpleCart.min.js'
+        //'js/simpleCart.min.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

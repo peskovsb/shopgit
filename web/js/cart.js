@@ -11,10 +11,13 @@ function ajaxAddToCart (url,id) {
     basePrise = $('#bcb_base_sum').val();
     count = $('.good_id-'+id).find('.countGood').val();
     prise = $('.good_id-'+id).find('.bsb_prise_prod').val();
-    readyPrise = parseInt(basePrise) + (parseInt(prise)*count);
-    //console.log(readyPrise);
+    readyPrise = parseInt(basePrise) + (parseInt(prise)*parseInt(count));
+
+    //Тесты
+    //console.log(basePrise);
+    //console.log(count);
+    //console.log(prise);
     $('#bcb_base_sum').val(readyPrise);
-    //console.log('count: ',count);
 
     var exists = 0;
     for(var i=0;i<goods.length;i++){

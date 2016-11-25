@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Identification;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
@@ -78,7 +79,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
             </ul>
             <div class="clearfix"></div>
         </div>
-        <div class="desc1 span_3_of_2">
+        <div class="desc1 span_3_of_2 good_id-<?= $model->id ?>">
             <h3><?= $model->name ?></h3>
             <span class="brand">Brand: <a href="#">Sed do eiusmod </a></span>
             <br>
@@ -86,7 +87,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
             <p>when an unknown printer took a galley of type and scrambled it to make</p>
             <div class="price">
                 <span class="text">Price:</span>
-                <span class="price-new"><?= number_format($model->price, 0, '.', ' ') ?> руб</span><span class="price-old"><?= number_format($model->price+3000, 0, '.', ' ') ?> руб</span>
+                <span class="price-new"><?= Identification::addPrise($model->price) ?> руб</span><span class="price-old"><?= number_format($model->price+3000, 0, '.', ' ') ?> руб</span>
                 <br>
                 <span class="points"><small>Баллы при покупке: 400</small></span><br>
             </div>
@@ -101,10 +102,14 @@ $this->registerJs($script, yii\web\View::POS_READY);
                     </ul>
                 </div>
             </div>
-            <div class="btn_form">
-                <a href="checkout.html">buy</a>
-            </div>
-            <a href="#"><span>login to save in wishlist </span></a>
+
+                <?= Identification::addPlus($model->id,'+'); ?>
+                <?= Identification::addMinus($model->id,'-'); ?>
+                <?= Identification::addQuantity(); ?>
+                <div class="btn_form">
+                    <?= Identification::addBuy($model->id,'купить'); ?>
+                </div>
+                <a href="#"><span>login to save in wishlist </span></a>
 
         </div>
         <div class="clearfix"></div>
