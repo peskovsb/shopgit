@@ -46,6 +46,7 @@ $config = [
                 'catalog' => 'catalog/index',
                 'catalog/<id:\d+>' => 'catalog/view',
                 'catalog/<id:\d+>/<_a:\[\w-]+>' => 'catalog/<_a>',
+                'page/<alias:[\w\d-_]+>' => 'static/showstatic',
             ],
         ],
     ],

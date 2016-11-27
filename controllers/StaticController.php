@@ -8,12 +8,15 @@ use app\models\StaticSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\UploadForm;
 
 /**
  * StaticController implements the CRUD actions for Staticpages model.
  */
 class StaticController extends Controller
 {
+    public $layout = 'layoutadmin';
+
     /**
      * @inheritdoc
      */
@@ -64,12 +67,28 @@ class StaticController extends Controller
     public function actionCreate()
     {
         $model = new Staticpages();
+        $upload = new UploadForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+
+            // -- UPLOAD FRAGMENT ---------------------
+            $upload->prodpics = \yii\web\UploadedFile::getInstances($upload, 'prodpics');
+
+            if($upload->prodpics){
+                if ($json = $upload->uploadWide()) {
+                    $model->pics = $json[0];
+                }else{
+                    throw new NotFoundHttpException('Upload failed!');
+                }
+            }
+            // -- UPLOAD FRAGMENT ---------------------
+
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'upload' => $upload
             ]);
         }
     }
@@ -83,12 +102,28 @@ class StaticController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $upload = new UploadForm();
+        $model->dttm = \Yii::$app->formatter->asDate( $model->dttm, 'php:Y-m-d');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            // -- UPLOAD FRAGMENT ---------------------
+            $upload->prodpics = \yii\web\UploadedFile::getInstances($upload, 'prodpics');
+
+            if($upload->prodpics){
+                if ($json = $upload->uploadWide()) {
+                    $model->pics = $json[0];
+                }else{
+                    throw new NotFoundHttpException('Upload failed!');
+                }
+            }
+            // -- UPLOAD FRAGMENT ---------------------
+
+            $model->save();
+            return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'upload' => $upload
             ]);
         }
     }
@@ -120,5 +155,20 @@ class StaticController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionShowstatic(){
+        $this->layout = "catalog";
+        $model = new StaticSearch();
+        $model->alias = Yii::$app->request->get('alias');
+        if($model->validate() && $modelGet = Staticpages::findOne(['alias'=>$model->alias])){
+
+        }else{
+            throw new NotFoundHttpException('Wrong Params');
+        }
+
+        return $this->render('showstatic',[
+            'model' => $modelGet
+        ]);
     }
 }

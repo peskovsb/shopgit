@@ -19,7 +19,8 @@ class StaticSearch extends Staticpages
     {
         return [
             [['id', 'statuspage'], 'integer'],
-            [['alias', 'detailtext', 'pics', 'previewtext', 'dttm'], 'safe'],
+            [['detailtext', 'pics', 'previewtext', 'dttm'], 'safe'],
+            [['alias'],'match', 'pattern'=>'/^[a-z\d]{1}[a-z-_\d]*[a-z\d]{1}$/i'],
         ];
     }
 

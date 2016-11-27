@@ -41,7 +41,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
         <div class="header_top">
             <div class="top_right">
                 <ul>
-                    <li><a href="#">help</a></li>|
+                    <li><a href="<?= Url::to(['static/showstatic','alias'=>'help'])?>">help</a></li>|
                     <li><a href="contact.html">Contact</a></li>|
                     <li><a href="#">Delivery information</a></li>
                 </ul>

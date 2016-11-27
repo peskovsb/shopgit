@@ -20,7 +20,7 @@ class UploadForm extends Model
     public function rules()
     {
         return [
-            [['prodpics'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxFiles' => 4],
+            [['prodpics'], 'file', 'extensions' => 'png, jpg', 'maxFiles' => 4],
         ];
     }
 
@@ -33,6 +33,26 @@ class UploadForm extends Model
 
                 $im = new ResizeImg(\Yii::getAlias("@app/web").'/uploads/original/'.$nameFile);
                 $croped = $im->compression(357,515);
+                $im->save(\Yii::getAlias("@app/web").'/uploads/thumb/'.$nameFile);
+
+                $filesJson[] = $nameFile;
+            }
+            return $filesJson;
+        } else {
+            return false;
+        }
+    }
+
+    public function uploadWide()
+    {
+        if ($this->validate()) {
+            foreach ($this->prodpics as $key => $file) {
+                $nameFile = date('d-m-y') . '_' . $this->rus2translit($file->baseName) . '.' . $file->extension;
+                $file->saveAs('uploads/original/' . $nameFile);
+
+                $im = new ResizeImg(\Yii::getAlias("@app/web").'/uploads/original/'.$nameFile);
+                //$croped = $im->compression(1200,600);
+                $im->resample(1200,600);
                 $im->save(\Yii::getAlias("@app/web").'/uploads/thumb/'.$nameFile);
 
                 $filesJson[] = $nameFile;

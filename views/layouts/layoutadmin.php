@@ -78,6 +78,7 @@ echo '</div>';
                 //['label' => 'Values', 'url' => ['/admin/values/index']],
                 ['label' => 'Тэги', 'url' => ['/admin/tags/index']],
                 //['label' => 'Product Tags', 'url' => ['/admin/product-tags/index']],
+                ['label' => 'Статические страницы', 'url' => ['static/index']],
             ]],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
